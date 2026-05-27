@@ -1,3 +1,6 @@
+
+FORK of Original - Adding multi-console support. 
+
 # F1 25 Game Telemetry for Home Assistant
 
 A high-performance custom integration for Home Assistant that brings real-time telemetry from EA Sports' **F1 25** game directly into your smarthome.
@@ -27,7 +30,8 @@ A high-performance custom integration for Home Assistant that brings real-time t
 5. Restart Home Assistant.
 
 ### Manual
-1. Copy the `custom_components/f1_25_telemetry` folder to your Home Assistant `config/custom_components/` directory.
+1. Copy the `custom_components/f1-25-telemetry-for-home-assistant-multi-console
+` folder to your Home Assistant `config/custom_components/` directory.
 2. Restart Home Assistant.
 
 ## ⚙️ Configuration
