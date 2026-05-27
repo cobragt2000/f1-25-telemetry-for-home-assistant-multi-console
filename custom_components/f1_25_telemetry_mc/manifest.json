@@ -1,14 +1,14 @@
 {
-  "domain": "f1_25_telemetry",
-  "name": "F1 25 Telemetry",
+  "domain": "f1_25_telemetry_mc",
+  "name": "F1 25 Telemetry Multi-Console",
   "codeowners": [
-    "@richardvinger"
+    "@cobragt2000"
   ],
   "config_flow": true,
-  "documentation": "https://github.com/richardvinger/f1-25-telemetry-for-home-assistant",
+  "documentation": "https://github.com/cobragt2000/f1-25-telemetry-for-home-assistant-multi-console",
   "integration_type": "service",
   "iot_class": "local_push",
-  "issue_tracker": "https://github.com/richardvinger/f1-25-telemetry-for-home-assistant/issues",
+  "issue_tracker": "https://github.com/cobragt2000/f1-25-telemetry-for-home-assistant-multi-console/issues",
   "requirements": [],
   "version": "1.1.0"
 }

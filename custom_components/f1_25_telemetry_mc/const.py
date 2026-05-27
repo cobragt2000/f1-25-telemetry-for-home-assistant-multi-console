@@ -2,7 +2,7 @@
 
 from typing import Final
 
-DOMAIN: Final = "f1_25_telemetry"
+DOMAIN: Final = "f1_25_telemetry_mc"
 CONF_PORT: Final = "port"
 CONF_FORWARD_ENABLED: Final = "forward_enabled"
 CONF_FORWARD_IP: Final = "forward_ip"
@@ -32,7 +32,7 @@ PACKET_ID_LAP_POSITIONS = 15
 PACKET_ID_PARTICIPANTS = 4
 
 # Device ID for persistent grouping
-DEVICE_ID = "f1_25_telemetry_device"
+DEVICE_ID = "f1_25_telemetry_mc_device"
 # Packet Sizes (Bytes) for sanity checking
 PACKET_HEADER_SIZE = 29
 PACKET_SIZES = {
