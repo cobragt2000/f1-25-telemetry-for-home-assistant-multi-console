@@ -1,4 +1,4 @@
-"""Constants for the F1 25 Telemetry integration."""
+"""Constants for the F1 25 Telemetry MC integration."""
 
 from typing import Final
 
@@ -7,8 +7,12 @@ CONF_PORT: Final = "port"
 CONF_FORWARD_ENABLED: Final = "forward_enabled"
 CONF_FORWARD_IP: Final = "forward_ip"
 CONF_FORWARD_PORT: Final = "forward_port"
+CONF_UNIT_SYSTEM: Final = "unit_system"
 
 DEFAULT_PORT: Final = 20777
+UNIT_SYSTEM_METRIC: Final = "metric"
+UNIT_SYSTEM_IMPERIAL: Final = "imperial"
+DEFAULT_UNIT_SYSTEM: Final = UNIT_SYSTEM_METRIC
 
 # Detailed Packet IDs from spec
 PACKET_ID_MOTION = 0
@@ -28,11 +32,9 @@ PACKET_ID_MOTION_EX = 13
 PACKET_ID_TIME_TRIAL = 14
 PACKET_ID_LAP_POSITIONS = 15
 
-# New Participant Packet
-PACKET_ID_PARTICIPANTS = 4
-
 # Device ID for persistent grouping
 DEVICE_ID = "f1_25_telemetry_mc_device"
+
 # Packet Sizes (Bytes) for sanity checking
 PACKET_HEADER_SIZE = 29
 PACKET_SIZES = {
@@ -88,7 +90,7 @@ FIA_FLAG_NONE = 0
 FIA_FLAG_GREEN = 1
 FIA_FLAG_BLUE = 2
 FIA_FLAG_YELLOW = 3
-FIA_FLAG_RED = 4 # Not explicitly in list 559 but 193 mentions red flags
+FIA_FLAG_RED = 4
 
 FIA_FLAG_MAP = {
     FIA_FLAG_UNKNOWN: "Unknown",
@@ -127,7 +129,7 @@ TYRE_COMPOUND_MAP = {
     TYRE_COMPOUND_WET: "Wet",
 }
 
-# Session Types (Partial list relative to interest)
+# Session Types
 SESSION_TYPE_UNKNOWN = 0
 SESSION_TYPE_P1 = 1
 SESSION_TYPE_P2 = 2

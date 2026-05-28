@@ -1,4 +1,4 @@
-"""Sensors for F1 25 Telemetry."""
+"""Sensors for F1 25 Telemetry MC."""
 from homeassistant.components.sensor import SensorEntity, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfSpeed, UnitOfTemperature
@@ -10,7 +10,10 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import (
     DOMAIN,
     CONF_PORT,
+    CONF_UNIT_SYSTEM,
     DEFAULT_PORT,
+    DEFAULT_UNIT_SYSTEM,
+    UNIT_SYSTEM_IMPERIAL,
     ERS_MODE_MAP,
     FIA_FLAG_MAP,
     SAFETY_CAR_STATUS_MAP,
@@ -19,6 +22,15 @@ from .const import (
     TYRE_COMPOUND_MAP,
 )
 from .coordinator import F125Coordinator
+
+KMH_TO_MPH = 0.621371
+CELSIUS_TO_FAHRENHEIT = lambda c: round((c * 9 / 5) + 32, 1)
+
+
+def _is_imperial(entry: ConfigEntry) -> bool:
+    """Return True if this entry is configured for imperial units."""
+    unit = entry.options.get(CONF_UNIT_SYSTEM, entry.data.get(CONF_UNIT_SYSTEM, DEFAULT_UNIT_SYSTEM))
+    return unit == UNIT_SYSTEM_IMPERIAL
 
 
 async def async_setup_entry(
@@ -97,16 +109,20 @@ class F1Sensor(CoordinatorEntity, SensorEntity):
         )
 
     @property
+    def _imperial(self) -> bool:
+        """Return True if imperial units are selected."""
+        return _is_imperial(self._entry)
+
+    @property
     def available(self) -> bool:
         """Return if entity is available."""
         return super().available
 
 
 class F125SpeedSensor(F1Sensor):
-    """Speed Sensor."""
+    """Speed Sensor — km/h (metric) or mph (imperial)."""
 
     _attr_translation_key = "speed"
-    _attr_native_unit_of_measurement = UnitOfSpeed.KILOMETERS_PER_HOUR
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_name = "Speed"
     _attr_entity_registry_enabled_default = False
@@ -116,9 +132,17 @@ class F125SpeedSensor(F1Sensor):
         self._attr_unique_id = f"{entry.entry_id}_speed"
 
     @property
+    def native_unit_of_measurement(self):
+        return UnitOfSpeed.MILES_PER_HOUR if self._imperial else UnitOfSpeed.KILOMETERS_PER_HOUR
+
+    @property
     def native_value(self) -> int | None:
         val = self.coordinator.data["car_telemetry"].get("speed")
-        return int(val) if val is not None else None
+        if val is None:
+            return None
+        if self._imperial:
+            return int(val * KMH_TO_MPH)
+        return int(val)
 
 
 class F125GearSensor(F1Sensor):
@@ -251,11 +275,10 @@ class F125SafetyCarSensor(F1Sensor):
 
 
 class F125TrackTempSensor(F1Sensor):
-    """Track Temperature Sensor."""
+    """Track Temperature Sensor — °C (metric) or °F (imperial)."""
 
-    _attr_name = "Track Temperature"
-    _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_name = "Track Temperature"
     _attr_icon = "mdi:thermometer"
 
     def __init__(self, coordinator, entry):
@@ -263,9 +286,17 @@ class F125TrackTempSensor(F1Sensor):
         self._attr_unique_id = f"{entry.entry_id}_track_temp"
 
     @property
-    def native_value(self) -> int | None:
+    def native_unit_of_measurement(self):
+        return UnitOfTemperature.FAHRENHEIT if self._imperial else UnitOfTemperature.CELSIUS
+
+    @property
+    def native_value(self):
         val = self.coordinator.data["session"].get("track_temperature")
-        return int(val) if val is not None else None
+        if val is None:
+            return None
+        if self._imperial:
+            return CELSIUS_TO_FAHRENHEIT(val)
+        return int(val)
 
 
 class F125WeatherSensor(F1Sensor):
@@ -351,22 +382,28 @@ class F125TyreWearSensor(F1Sensor):
 
 
 class F125TyreTempSensor(F1Sensor):
-    """Tyre Temperature Sensor."""
+    """Tyre Temperature Sensor — °C (metric) or °F (imperial)."""
 
     def __init__(self, coordinator, entry, index, label):
         super().__init__(coordinator, entry)
         self._index = index
         self._attr_name = f"Tyre Temp {label}"
         self._attr_unique_id = f"{entry.entry_id}_tyre_temp_{label.lower().replace(' ', '_')}"
-        self._attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
         self._attr_state_class = SensorStateClass.MEASUREMENT
         self._attr_icon = "mdi:thermometer-lines"
+
+    @property
+    def native_unit_of_measurement(self):
+        return UnitOfTemperature.FAHRENHEIT if self._imperial else UnitOfTemperature.CELSIUS
 
     @property
     def native_value(self):
         temps = self.coordinator.data["car_telemetry"].get("tyre_surface_temp")
         if temps and len(temps) > self._index:
-            return temps[self._index]
+            val = temps[self._index]
+            if self._imperial:
+                return CELSIUS_TO_FAHRENHEIT(val)
+            return val
         return None
 
 

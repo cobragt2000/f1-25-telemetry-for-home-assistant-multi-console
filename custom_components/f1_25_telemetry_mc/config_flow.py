@@ -1,4 +1,4 @@
-"""Config flow for F1 25 Telemetry integration."""
+"""Config flow for F1 25 Telemetry MC integration."""
 from __future__ import annotations
 
 import logging
@@ -18,13 +18,19 @@ from .const import (
     CONF_FORWARD_ENABLED,
     CONF_FORWARD_IP,
     CONF_FORWARD_PORT,
+    CONF_UNIT_SYSTEM,
+    DEFAULT_UNIT_SYSTEM,
+    UNIT_SYSTEM_METRIC,
+    UNIT_SYSTEM_IMPERIAL,
 )
 
 _LOGGER = logging.getLogger(__name__)
 
+UNIT_SYSTEM_OPTIONS = [UNIT_SYSTEM_METRIC, UNIT_SYSTEM_IMPERIAL]
+
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for F1 25 Telemetry."""
+    """Handle a config flow for F1 25 Telemetry MC."""
 
     VERSION = 1
 
@@ -55,6 +61,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema=vol.Schema(
                 {
                     vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
+                    vol.Required(CONF_UNIT_SYSTEM, default=DEFAULT_UNIT_SYSTEM): vol.In(UNIT_SYSTEM_OPTIONS),
                     vol.Optional(CONF_FORWARD_ENABLED, default=False): bool,
                     vol.Optional(CONF_FORWARD_IP, default=""): str,
                     vol.Optional(CONF_FORWARD_PORT, default=DEFAULT_PORT): int,
@@ -73,7 +80,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 class OptionsFlowHandler(config_entries.OptionsFlow):
-    """Handle options flow for F1 25 Telemetry."""
+    """Handle options flow for F1 25 Telemetry MC."""
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
@@ -99,6 +106,9 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         current_port = self.config_entry.options.get(
             CONF_PORT, self.config_entry.data.get(CONF_PORT, DEFAULT_PORT)
         )
+        current_unit_system = self.config_entry.options.get(
+            CONF_UNIT_SYSTEM, self.config_entry.data.get(CONF_UNIT_SYSTEM, DEFAULT_UNIT_SYSTEM)
+        )
         current_forward_enabled = self.config_entry.options.get(
             CONF_FORWARD_ENABLED, self.config_entry.data.get(CONF_FORWARD_ENABLED, False)
         )
@@ -114,6 +124,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             data_schema=vol.Schema(
                 {
                     vol.Required(CONF_PORT, default=current_port): int,
+                    vol.Required(CONF_UNIT_SYSTEM, default=current_unit_system): vol.In(UNIT_SYSTEM_OPTIONS),
                     vol.Optional(CONF_FORWARD_ENABLED, default=current_forward_enabled): bool,
                     vol.Optional(CONF_FORWARD_IP, default=current_forward_ip): str,
                     vol.Optional(CONF_FORWARD_PORT, default=current_forward_port): int,

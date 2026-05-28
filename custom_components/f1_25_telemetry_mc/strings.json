@@ -1,5 +1,5 @@
 {
-    "title": "F1 25 Telemetry",
+    "title": "F1 25 Telemetry Multi-Console",
     "config": {
         "step": {
             "user": {
@@ -7,6 +7,7 @@
                 "description": "Set the UDP port to listen to. Use a different port for each console (e.g. 20777 and 20778).",
                 "data": {
                     "port": "Local UDP Port (game default is 20777)",
+                    "unit_system": "Unit System (metric = °C / km/h, imperial = °F / mph)",
                     "forward_enabled": "Enable UDP Forwarding (re-transmit raw packets to another device)",
                     "forward_ip": "Destination IP",
                     "forward_port": "Destination Port"
@@ -23,6 +24,7 @@
                 "title": "F1 25 Telemetry Configuration",
                 "data": {
                     "port": "Local UDP Port (game default is 20777)",
+                    "unit_system": "Unit System (metric = °C / km/h, imperial = °F / mph)",
                     "forward_enabled": "Enable UDP Forwarding",
                     "forward_ip": "Destination IP",
                     "forward_port": "Destination Port"
