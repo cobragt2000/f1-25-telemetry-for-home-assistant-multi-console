@@ -1,7 +1,15 @@
 
-FORK of Original - Adding multi-console support. 
+FORK of Original - With Added Items:
 
-# F1 25 Game Telemetry for Home Assistant
+**Completed Additions:
+Multi-Console support. Entities tied to name/port number, shouldn't be a limit on consoles. 
+
+**Pending Additions:
+C/F temp selection.
+
+
+
+# F1 25 Game Telemetry for Home Assistant Multi Console
 
 A high-performance custom integration for Home Assistant that brings real-time telemetry from EA Sports' **F1 25** game directly into your smarthome.
 
