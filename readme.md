@@ -1,11 +1,12 @@
 
 FORK of Original - With Added Items:
 
-**Completed Additions:
+#**Completed Additions:
 Multi-Console support. Entities tied to name/port number, shouldn't be a limit on consoles. 
-
-**Pending Additions:
 C/F temp selection.
+
+#**Pending Additions:
+
 
 
 
