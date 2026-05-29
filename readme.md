@@ -5,8 +5,17 @@ FORK of Original - With Added Items:
 Multi-Console support. Entities tied to name/port number, shouldn't be a limit on consoles. 
 C/F temp selection.
 
-**Pending Additions:
-
+**Pending/Testing Additions:
+Current Lap Time, Delta to Car in Front, Delta to Race Leader, Pit Status, Number of Pit Stops, 
+Penalties (seconds), Warnings, Corner Cutting Warnings, Drive-Through Pens, Stop-Go Pens, 
+Grid Position, Speed Trap Fastest Speed, Red Flag Count, Safety Car Count, Virtual Safety Car Count, 
+Suggested Gear, Tyre Damage %, Tyre Blisters %, Brake Damage %, Diffuser Damage, Sidepod Damage, 
+DRS Fault, ERS Fault, Gearbox Damage, Engine Damage, Engine MGU-H Wear, Engine ES Wear, 
+Engine CE Wear, Engine ICE Wear, Engine MGU-K Wear, Engine TC Wear, Engine Blown, Engine Seized, 
+Traction Control, Anti-Lock Brakes, Fuel Mix, Fuel In Tank (gal), Pit Limiter, Max RPM, 
+DRS Activation Distance, Actual Tyre Compound, Engine Power ICE, Engine Power MGU-K, 
+ERS Harvested MGU-H, ERS Deployed This Lap, Suggested Gear, Brake Temps, Tyre Inner Temps, 
+Engine Temperature, Tyre Pressures.
 
 
 
