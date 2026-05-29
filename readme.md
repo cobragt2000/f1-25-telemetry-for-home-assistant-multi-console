@@ -360,7 +360,7 @@ If you run a secondary dashboard (phone app, steering wheel display, etc.) along
 ### v1.3.0
 - Imperial / metric unit switching (per instance)
 - Added 50+ new sensors
-- 
+ 
 ### v1.2.0
 - Added metric / imperial unit system option to config flow
 - Speed switches between km/h and mph
