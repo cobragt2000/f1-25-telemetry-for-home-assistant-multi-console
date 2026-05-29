@@ -353,12 +353,14 @@ If you run a secondary dashboard (phone app, steering wheel display, etc.) along
 ## Changelog
 
 ### v1.5.0
-- Added 50+ new sensors: lap penalties, deltas, pit data, engine wear, brake temps, tyre blisters/damage, ERS details, session counts
 - Added `custom:f1-telemetry-card` Lovelace dashboard card
-- Imperial / metric unit switching (per instance)
 - Brake damage sensors (per corner)
 - Tyre blister sensors (per corner) — new F1 25 data
 
+### v1.3.0
+- Imperial / metric unit switching (per instance)
+- Added 50+ new sensors
+- 
 ### v1.2.0
 - Added metric / imperial unit system option to config flow
 - Speed switches between km/h and mph
@@ -377,6 +379,6 @@ If you run a secondary dashboard (phone app, steering wheel display, etc.) along
 
 ## Credits
 
-Original integration by [@richardvinger](https://github.com/richardvinger/f1-25-telemetry-for-home-assistant). Multi-console fork and extended sensor set by [@cobragt2000](https://github.com/cobragt2000).
+Original integration by [@richardvinger](https://github.com/richardvinger/f1-25-telemetry-for-home-assistant). Multi-console fork and extended sensor set by [@cobragt2000] and Claude AI. (https://github.com/cobragt2000).
 
 F1 25 UDP telemetry specification by EA Sports / Codemasters.
