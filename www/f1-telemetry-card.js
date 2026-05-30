@@ -2,7 +2,7 @@
 // Responsive via CSS Container Queries — scales from span-1 to span-4
 // Part of the f1_25_telemetry_mc HACS integration
 
-const CARD_VERSION = "1.5.0";
+const CARD_VERSION = "1.5.1";
 
 const KMH_TO_MPH = 0.621371;
 const COMPOUND_COLORS = {

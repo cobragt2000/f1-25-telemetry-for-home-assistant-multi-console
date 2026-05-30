@@ -1,7 +1,7 @@
 # F1 25 Telemetry — Multi-Console for Home Assistant
 
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
-[![Version](https://img.shields.io/badge/version-1.5.0-red.svg)](https://github.com/cobragt2000/f1-25-telemetry-for-home-assistant-multi-console/releases)
+[![Version](https://img.shields.io/badge/version-1.5.1-red.svg)](https://github.com/cobragt2000/f1-25-telemetry-for-home-assistant-multi-console/releases)
 [![HA Versions](https://img.shields.io/badge/HA-2024.1%2B-blue.svg)](https://www.home-assistant.io)
 
 A fork of [richardvinger/f1-25-telemetry-for-home-assistant](https://github.com/richardvinger/f1-25-telemetry-for-home-assistant) with multi-console support, an expanded sensor set, imperial/metric unit switching, and a built-in Lovelace telemetry dashboard card.
@@ -248,22 +248,38 @@ After installing via HACS, register the card resource once:
 
 ### Adding the card
 
-In your dashboard YAML:
+The card is designed to be used inside a HA grid card so it can be given a column span. Recommended setup:
 
 ```yaml
-type: custom:f1-telemetry-card
-console: 1
-prefix1: sensor.f1_25_game_port_20777_
-prefix2: sensor.f1_25_game_port_20778_
+type: grid
+cards:
+  - type: custom:f1-telemetry-card
+    console: 1
+    prefix1: sensor.f1_25_game_john_port_20777_
+    prefix2: sensor.f1_25_game_john_port_20778_
+column_span: 2
 ```
+
+> **Finding your prefix:** Go to **Settings → Devices & Services → your F1 25 device → any entity** (e.g. Speed) and note its entity ID. Strip the sensor name off the end — everything up to and including the last underscore is your prefix. For example `sensor.f1_25_game_john_port_20777_speed` → prefix is `sensor.f1_25_game_john_port_20777_`.
+
+### Responsive layout
+
+The card uses CSS container queries and automatically adapts its layout based on the width it is given — no configuration needed. Just change `column_span` and the card reflows:
+
+| Column span | Approx width | Layout |
+|-------------|-------------|--------|
+| `1` | ~300px | Single column stack |
+| `2` | ~500px | Left panels + car side by side, data panels below in a row |
+| `3` | ~800px | Full 3-column: left data \| car \| right data |
+| `4` | ~1100px | Full layout with larger fonts and more spacing |
 
 ### YAML configuration options
 
 | Option | Default | Description |
 |--------|---------|-------------|
 | `console` | `1` | Which console to show on load (`1` or `2`) |
-| `prefix1` | `sensor.f1_25_game_port_20777_` | Entity prefix for Console 1 |
-| `prefix2` | `sensor.f1_25_game_port_20778_` | Entity prefix for Console 2 |
+| `prefix1` | `sensor.f1_25_port_20777_` | Entity prefix for Console 1 |
+| `prefix2` | `sensor.f1_25_port_20778_` | Entity prefix for Console 2 |
 | `accent` | `#e8002d` | Accent colour (speed, position) |
 | `accent2` | `#00d2ff` | Info colour (deltas, DRS) |
 | `warn` | `#ff9500` | Warning colour |
@@ -272,7 +288,7 @@ prefix2: sensor.f1_25_game_port_20778_
 | `panel` | `#111118` | Panel background colour |
 | `interval` | `500` | Poll interval in milliseconds |
 
-All options can also be changed live via the **⚙ CONFIG** button inside the card without editing YAML. Settings are saved to browser `localStorage`.
+All options can also be changed live via the **⚙ CONFIG** button inside the card without editing YAML. Settings are saved to browser `localStorage` and persist across sessions.
 
 ### What the card shows
 
@@ -280,10 +296,10 @@ All options can also be changed live via the **⚙ CONFIG** button inside the ca
 |------|---------|
 | Header | Console selector, track name, config button |
 | Status pills | Session status, Safety Car, Flag, DRS, Pit status, TC, ABS |
-| Top HUD | Speed, Gear, RPM (with 20-LED bar), Suggested Gear |
-| Centre bars | Throttle, Brake, ERS Store, Fuel Laps |
-| Car SVG | Top-down F1 car with per-corner tyre badges (wear, surface temp, PSI, damage %, blister %), brake heat glow on all 4 corners, DRS wing glow |
-| Bottom strip | Compound, Tyre Age, Track Temp, Engine Temp |
+| Top HUD | Speed, Gear, RPM (with 20-LED rev bar), Suggested Gear |
+| Input bars | Throttle, Brake, ERS Store, Fuel Laps |
+| Car SVG | Top-down F1 car with per-corner tyre badges (wear %, surface temp, PSI, tyre damage %, blister %), brake heat glow on all 4 corners, DRS wing glow when active |
+| Car info strip | Compound, Tyre Age, Track Temp, Engine Temp |
 | Left panels | Race position, lap times, penalties, session counts |
 | Right panels | Power unit, fuel, damage, engine wear |
 | Bottom row | Brake temp + brake damage bars for all 4 corners |
@@ -352,15 +368,20 @@ If you run a secondary dashboard (phone app, steering wheel display, etc.) along
 
 ## Changelog
 
+### v1.5.1
+- Lovelace card fully responsive via CSS container queries — scales cleanly from span-1 (~300px) to span-4 (~1100px+)
+- Card now recommended inside a `type: grid` card with `column_span` for best results
+- Tyre badge damage and blister labels shortened (D% / B%) for compact layouts
+- Status pills, HUD fonts, and panel sizes all scale with card width automatically
+- Added prefix discovery note to README
+
 ### v1.5.0
+- Added 50+ new sensors: lap penalties, deltas, pit data, engine wear, brake temps, tyre blisters/damage, ERS details, session counts
 - Added `custom:f1-telemetry-card` Lovelace dashboard card
+- Imperial / metric unit switching (per instance)
 - Brake damage sensors (per corner)
 - Tyre blister sensors (per corner) — new F1 25 data
 
-### v1.3.0
-- Imperial / metric unit switching (per instance)
-- Added 50+ new sensors
- 
 ### v1.2.0
 - Added metric / imperial unit system option to config flow
 - Speed switches between km/h and mph
@@ -379,6 +400,6 @@ If you run a secondary dashboard (phone app, steering wheel display, etc.) along
 
 ## Credits
 
-Original integration by [@richardvinger](https://github.com/richardvinger/f1-25-telemetry-for-home-assistant). Multi-console fork and extended sensor set by [@cobragt2000] and Claude AI. (https://github.com/cobragt2000).
+Original integration by [@richardvinger](https://github.com/richardvinger/f1-25-telemetry-for-home-assistant). Multi-console fork and extended sensor set by [@cobragt2000](https://github.com/cobragt2000).
 
 F1 25 UDP telemetry specification by EA Sports / Codemasters.
